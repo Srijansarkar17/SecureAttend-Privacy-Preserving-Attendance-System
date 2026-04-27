@@ -1,0 +1,20 @@
+import "hashes/poseidon/poseidon" as poseidon;
+
+def main(field[128] emb) -> field {
+    field[32] mut hashes_l1 = [0; 32];
+    for u32 i in 0..32 {
+        hashes_l1[i] = poseidon([emb[i*4], emb[i*4+1], emb[i*4+2], emb[i*4+3]]);
+    }
+    
+    field[8] mut hashes_l2 = [0; 8];
+    for u32 i in 0..8 {
+        hashes_l2[i] = poseidon([hashes_l1[i*4], hashes_l1[i*4+1], hashes_l1[i*4+2], hashes_l1[i*4+3]]);
+    }
+    
+    field[2] mut hashes_l3 = [0; 2];
+    for u32 i in 0..2 {
+        hashes_l3[i] = poseidon([hashes_l2[i*4], hashes_l2[i*4+1], hashes_l2[i*4+2], hashes_l2[i*4+3]]);
+    }
+    
+    return poseidon([hashes_l3[0], hashes_l3[1]]);
+}

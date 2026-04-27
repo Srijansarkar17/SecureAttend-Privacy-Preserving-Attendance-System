@@ -1,0 +1,2 @@
+curve:            bn128
+constraint_count: 12715

@@ -1,0 +1,3 @@
+Performing verification...
+called `Result::unwrap()` on an `Err` value: MalformedVerifyingKey (zokrates_ark/src/groth16.rs:79:56)
+This is unexpected, please submit a full bug report at https://github.com/Zokrates/ZoKrates/issues

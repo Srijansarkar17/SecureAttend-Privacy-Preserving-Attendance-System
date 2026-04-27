@@ -15,13 +15,13 @@ void EmbeddingProcessor::l2Normalize(std::vector<float>& embedding) {
     }
 }
 
-std::vector<int16_t> EmbeddingProcessor::quantize(const std::vector<float>& embedding) {
-    std::vector<int16_t> quantized;
-    quantized.reserve(embedding.size());
+std::vector<int> EmbeddingProcessor::quantize(const std::vector<float>& embedding) {
+    std::vector<int> quantized(128, 20000); // Initialize with 128 elements at offset 20000
+    size_t count = std::min((size_t)128, embedding.size());
 
-    for (float v : embedding) {
-        int16_t q = static_cast<int16_t>(v * 32767);
-        quantized.push_back(q);
+    for (size_t i = 0; i < count; ++i) {
+        // Map [-1.0, 1.0] to [10000, 30000] approx
+        quantized[i] = static_cast<int>(embedding[i] * 10000.0f) + 20000;
     }
 
     return quantized;

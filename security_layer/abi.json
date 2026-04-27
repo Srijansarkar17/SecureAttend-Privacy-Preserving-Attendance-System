@@ -1,0 +1,16 @@
+{
+  "inputs": [
+    {
+      "name": "emb",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 128,
+        "type": "field"
+      }
+    }
+  ],
+  "output": {
+    "type": "field"
+  }
+}

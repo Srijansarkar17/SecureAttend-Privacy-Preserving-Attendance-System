@@ -1,0 +1,42 @@
+import "hashes/poseidon/poseidon" as poseidon;
+
+// We use 128 dimensions for efficiency on edge devices
+// Inputs are quantized and shifted to be positive integers
+def main(private field[128] live_emb, private field[128] stored_emb, public field threshold, public field commitment) {
+    
+    // 1. Calculate Squared Euclidean Distance
+    field mut dist = 0;
+    for u32 i in 0..128 {
+        field diff = live_emb[i] - stored_emb[i];
+        dist = dist + diff * diff;
+    }
+    
+    // 2. Assert Distance is within threshold
+    // Threshold is squared Euclidean distance limit
+    assert(dist < threshold);
+    
+    // 3. Verify Poseidon Commitment of stored face template
+    // We hash the stored_emb in chunks since Poseidon takes max 6 inputs.
+    // 128 -> 32 -> 8 -> 2 -> 1
+    
+    field[32] mut hashes_l1 = [0; 32];
+    for u32 i in 0..32 {
+        hashes_l1[i] = poseidon([stored_emb[i*4], stored_emb[i*4+1], stored_emb[i*4+2], stored_emb[i*4+3]]);
+    }
+    
+    field[8] mut hashes_l2 = [0; 8];
+    for u32 i in 0..8 {
+        hashes_l2[i] = poseidon([hashes_l1[i*4], hashes_l1[i*4+1], hashes_l1[i*4+2], hashes_l1[i*4+3]]);
+    }
+    
+    field[2] mut hashes_l3 = [0; 2];
+    for u32 i in 0..2 {
+        hashes_l3[i] = poseidon([hashes_l2[i*4], hashes_l2[i*4+1], hashes_l2[i*4+2], hashes_l2[i*4+3]]);
+    }
+    
+    field actual_commitment = poseidon([hashes_l3[0], hashes_l3[1]]);
+    
+    assert(actual_commitment == commitment);
+    
+    return;
+}

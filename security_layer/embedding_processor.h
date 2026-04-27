@@ -7,7 +7,7 @@
 class EmbeddingProcessor {
 public:
     static void l2Normalize(std::vector<float>& embedding);
-    static std::vector<int16_t> quantize(const std::vector<float>& embedding);
+    static std::vector<int> quantize(const std::vector<float>& embedding);
 };
 
 #endif
