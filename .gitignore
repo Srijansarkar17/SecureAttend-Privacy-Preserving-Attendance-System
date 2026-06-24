@@ -1,0 +1,56 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Node / Frontend
+node_modules/
+dist/
+.env
+.env.local
+.env.production
+
+# ZoKrates build artifacts (large binary files — committed only when intentional)
+security_layer/out.wtns
+security_layer/witness
+security_layer/witness_out.txt
+security_layer/witness_inspect.txt
+security_layer/verify_out.txt
+security_layer/proof_hash_gen.txt
+security_layer/commitment.txt
+
+# ZK proof (regenerated at runtime)
+security_layer/proof.json
+
+# Large compiled binaries
+security_layer/zokrates
+security_layer/zokrates.tar.gz
+security_layer/out
+security_layer/out_hash
+security_layer/security_layer
+
+# Keys (keep in repo for reproducibility — remove if private)
+# security_layer/proving.key
+# security_layer/verification.key
+
+# Backend runtime temp files
+secure_attend_backend/verify_out.txt
+secure_attend_backend/witness_out.txt
+secure_attend_backend/witness_inspect.txt
+temp_register_*.jpg
+temp_recognize.jpg
+
+# Embeddings (regenerated from DB)
+minor_project/embeddings/
+minor_project/face_db.json
